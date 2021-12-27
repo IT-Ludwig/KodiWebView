@@ -106,7 +106,8 @@ if(isset($msg))
 					   Kodi 15.x = 93 ( ab Kodi 15 beta2 )</br>
 					   Kodi 16.x = 99</br>
 					   Kodi 17.x = 107</br>
-					   Kodi 18.x = 112-<b>116</b></td>
+					   Kodi 18.x = 112-<b>116</b></br>
+					   Kodi 19.x = 119</td>
 					   
     </tr>	
 	 <tr>
