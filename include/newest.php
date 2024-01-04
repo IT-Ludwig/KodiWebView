@@ -1,10 +1,15 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="../gfx/js/functions.js" type="text/javascript"></script>
 </head>
-<?php include ('./conf.php');
-	  include ('./enviroment.php');
-	  include ('./functions.php'); 
-	  include ('./image.class.php');
+<?php 
+# Debug
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+
+	include ('./conf.php');
+	include ('./enviroment.php');
+	include ('./functions.php'); 
+	include ('./image.class.php');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +44,7 @@ $collectMissingSeriesThumb 	= array();
 						if(($value != "") || (!empty($value)))
 						{
 							$getThumbs = getConnected($conn_mysql_db1, '../')->query("Select $tb_art.url FROM $tb_art, $uniqueid  WHERE $tb_art.media_id = $uniqueid.media_id AND $tb_art.media_type = 'movie' AND $tb_art.type = 'poster' AND $uniqueid.value = '$value'")->fetchAll(PDO::FETCH_ASSOC);
-							if (false === @file_get_contents($getThumbs[0]['url']))
+							if (false === @file_get_contents($getThumbs[0]['url']) || (empty($getThumbs[0]['url']))
 							{
 								$api_output1 = file_get_contents("http://www.omdbapi.com/?i=$value&plot=short&r=json&apikey=$omdbapi");
 								$needed_data1 = explode("\n", $api_output1);
@@ -123,9 +128,13 @@ $collectMissingSeriesThumb 	= array();
 												$ThumbString = utf8_decode("$key.jpg");
 											} else {
 												$ThumbString = "$value.jpg";
-											} 										
-								$savefile = fopen($pre.$thumbFolder.$toriginal.'cover/'.$ThumbString, "w");									
-								fwrite($savefile, $getThumb); fclose($savefile);	
+											} 	
+								echo $getThumbs[0]['url']; echo "</br>";
+								echo $ThumbString;
+								
+								file_put_contents($pre.$thumbFolder.$toriginal.'cover/'.$ThumbString, $getThumb);
+								//$savefile = fopen($pre.$thumbFolder.$toriginal.'cover/'.$ThumbString, "w");									
+								//fwrite($savefile, $getThumb); fclose($savefile);	
 
 											if(!is_file($pre.$thumbFolder.$t300x424.'cover/'.$ThumbString))
 											{										
